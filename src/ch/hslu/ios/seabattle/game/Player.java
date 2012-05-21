@@ -1,25 +1,21 @@
 package ch.hslu.ios.seabattle.game;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import ch.hslu.ios.seabattle.iAction;
 import ch.hslu.ios.seabattle.commands.Command;
-import ch.hslu.ios.seabattle.commands.PlayerCommand;
+import ch.hslu.ios.seabattle.commands.PlayerCommand.PlayerCommandType;
 import ch.hslu.ios.seabattle.commands.PlayerShootCommand;
 import ch.hslu.ios.seabattle.commands.ReadyCommand;
+import ch.hslu.ios.seabattle.commands.RenewGameFieldCommand;
 import ch.hslu.ios.seabattle.commands.ServerCommand;
 import ch.hslu.ios.seabattle.commands.ServerSettingsCommand;
-import ch.hslu.ios.seabattle.commands.PlayerCommand.PlayerCommandType;
 
 /**
  * Handles the Player 
@@ -100,12 +96,14 @@ public class Player extends Thread {
 			fInputStream = new BufferedReader(new InputStreamReader(fsocket.getInputStream()));
 			fOutputStream = new BufferedWriter(new OutputStreamWriter(fsocket.getOutputStream()));
 			
+			sendCommand(new ServerSettingsCommand());
+			
 			while (!fsocket.isClosed()) {
 				
 				if (fInputStream.ready()) {
 					String[] cmd = fInputStream.readLine().split(Command.PARAM_SEPERATOR);
 					
-					PlayerCommandType type = PlayerCommandType.valueOf(cmd[0]);
+					PlayerCommandType type = PlayerCommandType.values()[Integer.parseInt(cmd[0])];
 					
 					switch (type) {
 						case GetServerSettings:
@@ -121,8 +119,21 @@ public class Player extends Thread {
 								fCurrentGame.handleCommand(new ReadyCommand(this, cmd));
 							}
 							break;
+						case UpdateName:
+							fPlayerName = cmd[1];
+							System.out.println("Name Changed to: " + cmd[1]);
+							break;
+						case RenewGameField:
+							if (fCurrentGame != null) {
+								fCurrentGame.handleCommand(new RenewGameFieldCommand(this, cmd));
+							}
+							break;
+						case Disconnect:
+							if (fCurrentGame != null) {
+								fCurrentGame.closeGame();
+							}
+							fsocket.close();
 					}
-					
 				}
 				/*
 				try {
@@ -136,8 +147,10 @@ public class Player extends Thread {
 				
 				if (!fOutputQueue.isEmpty()) {
 					String message = fOutputQueue.poll();
-					if (message != null)
+					if (message != null) {
 						fOutputStream.write(message);
+						fOutputStream.flush();
+					}
 				}
 			}
 			System.out.println("Connection to client (" + fsocket.getInetAddress().toString() + ") closed!");

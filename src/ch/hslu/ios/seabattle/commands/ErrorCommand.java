@@ -3,27 +3,19 @@ package ch.hslu.ios.seabattle.commands;
 import java.util.ArrayList;
 
 public class ErrorCommand extends ServerCommand {
-
-	private final Severity fSeverity;
-	private final String fMessage;
-
-	public enum Severity {
-		Message,
-		Warning,
-		Fatal
-	}
+	public static final int ERROR_CODE_PLAYER_DISCONNECTED = 1;
 	
-	public ErrorCommand(Severity severity, String message) {
+	private final int fErrorCode;
+	
+	public ErrorCommand(int errorCode) {
 		super(ServerCommandType.Error);
-		fSeverity = severity;
-		fMessage = message;
+		fErrorCode = errorCode;
 	}
 	
 	@Override
 	public ArrayList<Object> getParams() {
 		ArrayList<Object> list = new ArrayList<>();
-		list.add(fSeverity.ordinal());
-		list.add(fMessage);
+		list.add(fErrorCode);
 		
 		return list;
 	}

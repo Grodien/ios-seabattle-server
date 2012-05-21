@@ -45,6 +45,7 @@ public class Server {
 			
 			@Override
 			public void perform(Player data) {
+				fQueue.remove(data);
 				Game game = data.getCurrentGame();
 				if (game != null) {
 					game.closeGame();

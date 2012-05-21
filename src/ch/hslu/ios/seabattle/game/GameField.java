@@ -5,12 +5,12 @@ import java.util.Random;
 public class GameField
     {
 
-     public static final int SIZE = 12; 
+     public static final int SIZE = 10; 
      public static final int SMALL_SHIP_COUNT = 0;
      public static final int MEDIUM_SHIP_COUNT = 4;
      public static final int BIG_SHIP_COUNT = 3;
      public static final int HUGE_SHIP_COUNT = 2;
-     public static final int ULTIMATE_SHIP_COUNT = 1;
+     public static final int ULTIMATE_SHIP_COUNT = 0;
 
      public static final int VALUE_FREE = 0;
      public static final int VALUE_SHIP = 1;
@@ -49,7 +49,7 @@ public class GameField
 
      public void setCell(int row, int col, int value)
      {
-         fField[row][col] = value;
+         fField[col][row] = value;
      }
 
      public boolean createRandomField()
@@ -194,7 +194,11 @@ public class GameField
         return row >= 0 && row < SIZE && col >= 0 && col < SIZE;
     }
     
-    private boolean hasMoreShips()
+    public int getCell(int x, int y) {
+    	return fField[y][x];
+    }
+    
+    public boolean hasMoreShips()
     {
         for (int x = 0; x < SIZE; x++)
         {
@@ -250,7 +254,7 @@ public class GameField
     }
     
     public String getAsHiddenString() {
-   	StringBuilder builder = new StringBuilder();
+    	StringBuilder builder = new StringBuilder();
     	
     	for (int x = 0; x < SIZE; x++) {
     		for (int y = 0; y < SIZE; y++) {
@@ -263,5 +267,155 @@ public class GameField
     	}
     	
     	return builder.toString();
+    }
+    
+    public boolean shipIsDestroyed(int x, int y)
+    {
+        while((isValidCoord(x+1, y)) 
+                && (getCell(x+1, y) != VALUE_FREE)
+                && (getCell(x+1, y) != VALUE_FREE_HIT))
+        {
+            x++;
+            if(getCell(x, y) == VALUE_SHIP)
+            {
+                return false;
+            }
+        }
+        while((isValidCoord(x-1, y)) 
+                && (getCell(x-1, y) != VALUE_FREE)
+                && (getCell(x-1, y) != VALUE_FREE_HIT))
+        {
+            x--;
+            if(getCell(x, y) == VALUE_SHIP)
+            {
+                return false;
+            }
+        }
+        while((isValidCoord(x, y-1))
+                && (getCell(x, y-1) != VALUE_FREE)
+                && (getCell(x, y-1) != VALUE_FREE_HIT))
+        {
+            y--;
+            if(getCell(x, y) == VALUE_SHIP)
+            {
+                return false;
+            }
+        }
+        while((isValidCoord(x, y+1)) 
+                && (getCell(x, y+1) != VALUE_FREE)
+                && (getCell(x, y+1) != VALUE_FREE_HIT))
+        {
+            y++;
+            if(getCell(x, y) == VALUE_SHIP)
+            {
+                return false;
+            }
+        }
+        return true;
+        
+    }
+    
+    public void destroyShipSurroundings(int x, int y)
+    {
+        while(isValidCoord(x+1, y)
+                                && getCell(x+1, y) == VALUE_SHIP_HIT)
+        {
+            x++;
+            if(isValidCoord(x, y+1))
+            {
+                setCell(x, y+1, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x, y-1))
+            {
+                setCell(x, y-1, VALUE_FREE_HIT);
+            }
+        }
+        if(isValidCoord(x+1, y+1))
+        {
+            setCell(x+1, y+1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x+1, y-1))
+        {
+            setCell(x+1, y-1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x+1, y))
+        {
+            setCell(x+1, y, VALUE_FREE_HIT);
+        }
+        while(isValidCoord(x-1, y)
+                && getCell(x-1, y) == VALUE_SHIP_HIT)
+        {                            
+            x--;
+            if(isValidCoord(x, y+1))
+            {
+                setCell(x, y+1, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x, y-1))
+            {
+                setCell(x, y-1, VALUE_FREE_HIT);
+            }
+        }
+        if(isValidCoord(x-1, y+1))
+        {
+            setCell(x-1, y+1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x-1, y-1))
+        {
+            setCell(x-1, y-1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x-1, y))
+        {
+            setCell(x-1, y, VALUE_FREE_HIT);
+        }
+        while(isValidCoord(x, y+1)
+                && getCell(x, y+1) == VALUE_SHIP_HIT)
+        {                            
+            y++;
+            if(isValidCoord(x+1, y))
+            {
+                setCell(x+1, y, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x-1, y))
+            {
+                setCell(x-1, y, VALUE_FREE_HIT);
+            }
+        }
+        if(isValidCoord(x+1, y+1))
+        {
+            setCell(x+1, y+1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x-1, y+1))
+        {
+            setCell(x-1, y+1, VALUE_FREE_HIT);
+        }
+        if(isValidCoord(x, y+1))
+        {
+            setCell(x, y+1, VALUE_FREE_HIT);
+        }
+        while(isValidCoord(x, y-1)
+                && getCell(x, y-1) == VALUE_SHIP_HIT)
+        {                            
+            y--;
+            if(isValidCoord(x+1, y))
+            {
+                setCell(x+1, y, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x-1, y))
+            {
+                setCell(x-1, y, VALUE_FREE_HIT);
+            }
+        }
+        if(isValidCoord(x+1, y-1))
+        {
+            setCell(x+1, y-1, 2);
+        }
+        if(isValidCoord(x-1, y-1))
+        {
+            setCell(x-1, y-1, 2);
+        }
+        if(isValidCoord(x, y-1))
+        {
+            setCell(x, y-1, 2);
+        }
     }
 }

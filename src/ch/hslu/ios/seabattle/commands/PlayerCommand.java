@@ -13,7 +13,10 @@ public abstract class PlayerCommand extends Command {
 	public enum PlayerCommandType {
 		PlayerShoot,
 		GetServerSettings,
-		Ready
+		Ready,
+		UpdateName,
+		RenewGameField,
+		Disconnect
 	}
 	
 	public PlayerCommand(PlayerCommandType commandType, Player source, String[] params) {

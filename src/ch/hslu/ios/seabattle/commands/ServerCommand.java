@@ -10,7 +10,9 @@ public abstract class ServerCommand extends Command {
 		FullUpdate,
 		PlayerReady,
 		ServerSettings,
-		Error
+		Error,
+		Win,
+		PlayerFound
 	}
 	
 	public ServerCommand(ServerCommandType commandType) {

@@ -14,6 +14,10 @@ public class ReadyCommand extends PlayerCommand {
 	
 	@Override
 	protected void parseParams(String[] params) {
-		fParams.add(Boolean.parseBoolean(params[1]));
+		if (params[1].equals("1")) {
+			fParams.add(true);
+		} else {
+			fParams.add(false);
+		}
 	}
 }
