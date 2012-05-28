@@ -12,7 +12,8 @@ public abstract class ServerCommand extends Command {
 		ServerSettings,
 		Error,
 		Win,
-		PlayerFound
+		PlayerFound,
+		KeepAlive
 	}
 	
 	public ServerCommand(ServerCommandType commandType) {

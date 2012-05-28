@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import ch.hslu.ios.seabattle.iAction;
@@ -34,6 +35,7 @@ public class Player extends Thread {
 	private boolean fIsConnected;
 	private GameField fPlayerField;
 	private boolean fIsReady;
+	private Date fLastTouched;
 	
 	/**
 	 * Creates a new Thread for a new Player.
@@ -54,6 +56,10 @@ public class Player extends Thread {
 		return fPlayerField;
 	}
 
+	public Date getLastTouched() {
+		return fLastTouched;
+	}
+	
 	public void setPlayerField(GameField playerField) {
 		fPlayerField = playerField;
 	}
@@ -97,12 +103,16 @@ public class Player extends Thread {
 			fInputStream = new BufferedReader(new InputStreamReader(fsocket.getInputStream()));
 			fOutputStream = new BufferedWriter(new OutputStreamWriter(fsocket.getOutputStream()));
 			
+			fLastTouched = new Date();
+			
 			sendCommand(new ServerSettingsCommand());
 			
 			while (!fsocket.isClosed()) {
 				
 				if (fInputStream.ready()) {
 					String[] cmd = fInputStream.readLine().split(Command.PARAM_SEPERATOR);
+					
+					fLastTouched = new Date();
 					
 					PlayerCommandType type = PlayerCommandType.values()[Integer.parseInt(cmd[0])];
 					
@@ -152,6 +162,7 @@ public class Player extends Thread {
 				if (!fOutputQueue.isEmpty()) {
 					String message = fOutputQueue.poll();
 					if (message != null) {
+						fLastTouched = new Date();
 						fOutputStream.write(message);
 						fOutputStream.flush();
 					}

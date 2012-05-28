@@ -1,10 +1,12 @@
 package ch.hslu.ios.seabattle.game;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import ch.hslu.ios.seabattle.commands.ErrorCommand;
 import ch.hslu.ios.seabattle.commands.FullUpdateCommand;
+import ch.hslu.ios.seabattle.commands.KeepAliveCommand;
 import ch.hslu.ios.seabattle.commands.PlayerFoundCommand;
 
 
@@ -42,10 +44,24 @@ public class PlayerAndGameHandler extends Thread {
 		
 				System.out.println("New game created! (" + game.getP1().getPlayerName() + " vs. "
 							+ game.getP2().getPlayerName() + ")");
+			} else {
+				Player player = fQueue.peek();
+				if (player != null) {
+					Date now = new Date();
+					if (now.getTime() - player.getLastTouched().getTime() >= 1000*15) // 15 Seconds
+						player.sendCommand(new KeepAliveCommand());
+				}
 			}
 			
 			for (int i = fActiveGames.size(); i > 0; i--) {
 				Game game = fActiveGames.get(i-1);
+				
+				Date now = new Date();
+				if (now.getTime() - game.getP1().getLastTouched().getTime() >= 1000*15) // 15 Seconds
+					game.getP1().sendCommand(new KeepAliveCommand());
+				if (now.getTime() - game.getP2().getLastTouched().getTime() >= 1000*15) // 15 Seconds
+					game.getP2().sendCommand(new KeepAliveCommand());
+				
 				if (game.isGameShouldCloseByDisconnect()) {
 					System.out.println("Game " + game.getP1().getPlayerName() + " vs. "
 							+ game.getP2().getPlayerName() + " ended because "
