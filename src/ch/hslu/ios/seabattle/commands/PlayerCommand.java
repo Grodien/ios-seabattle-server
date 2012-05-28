@@ -22,7 +22,7 @@ public abstract class PlayerCommand extends Command {
 	public PlayerCommand(PlayerCommandType commandType, Player source, String[] params) {
 		fCommandType = commandType;	
 		fSource = source;
-		fParams = new ArrayList<>();
+		fParams = new ArrayList<Object>();
 		parseParams(params);
 	}
 	

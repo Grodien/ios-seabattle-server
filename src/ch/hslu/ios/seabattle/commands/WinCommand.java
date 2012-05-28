@@ -12,7 +12,7 @@ public class WinCommand extends ServerCommand {
 	
 	@Override
 	public ArrayList<Object> getParams() {
-		ArrayList<Object> list = new ArrayList<>();
+		ArrayList<Object> list = new ArrayList<Object>();
 		list.add(fWin);
 		
 		return list;

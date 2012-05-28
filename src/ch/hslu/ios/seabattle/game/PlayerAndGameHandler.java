@@ -15,7 +15,7 @@ public class PlayerAndGameHandler extends Thread {
 
 	public PlayerAndGameHandler(LinkedBlockingDeque<Player> queue) {
 		fQueue = queue;
-		fActiveGames = new ArrayList<>();
+		fActiveGames = new ArrayList<Game>();
 	}
 	
 	@Override

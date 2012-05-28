@@ -9,11 +9,11 @@ public class PlayerShootCommand extends PlayerCommand {
 	}
 
 	public int getPosX() {
-		return (int)fParams.get(0);
+		return (Integer) fParams.get(0);
 	}
 	
 	public int getPosY() {
-		return (int)fParams.get(1);
+		return (Integer) fParams.get(1);
 	}
 
 	@Override

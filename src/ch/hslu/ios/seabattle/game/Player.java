@@ -47,7 +47,7 @@ public class Player extends Thread {
 		fPlayerName = "UNKOWN";
 		fIsConnected = true;
 		fPlayerField = null;
-		fOutputQueue = new LinkedBlockingQueue<>();
+		fOutputQueue = new LinkedBlockingQueue<String>();
 	}
 	
 	public GameField getPlayerField() {

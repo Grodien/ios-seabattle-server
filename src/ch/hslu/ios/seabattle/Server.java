@@ -27,7 +27,7 @@ public class Server {
 	private Server() {
 		System.out.println("Welcome to the seabattle server");
 		
-		fQueue = new LinkedBlockingDeque<>();
+		fQueue = new LinkedBlockingDeque<Player>();
 		
 		fTcpServer = TCPServer.getInstance();
 		fTcpServer.setPlayerConnectedAction(new iAction<Player>() {

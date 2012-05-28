@@ -9,7 +9,7 @@ public class ReadyCommand extends PlayerCommand {
 	}
 
 	public boolean isReady() {
-		return (boolean)fParams.get(0);
+		return (Boolean) fParams.get(0);
 	}
 	
 	@Override

@@ -39,7 +39,7 @@ public final class TCPServer extends Thread{
 		super();
 		try {
 			System.out.println("Starting TCP Listener...");
-			mConnectedPlayers = new LinkedList<>();
+			mConnectedPlayers = new LinkedList<Player>();
 			mSocket = new ServerSocket(TCP_PORT);
 		} catch (IOException e) {		
 			System.out.println("Failed to start TCP Listener!");
