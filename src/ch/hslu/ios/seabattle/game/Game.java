@@ -3,6 +3,7 @@ package ch.hslu.ios.seabattle.game;
 import ch.hslu.ios.seabattle.commands.FullUpdateCommand;
 import ch.hslu.ios.seabattle.commands.PartialUpdateCommand;
 import ch.hslu.ios.seabattle.commands.PlayerCommand;
+import ch.hslu.ios.seabattle.commands.PlayerFoundCommand;
 import ch.hslu.ios.seabattle.commands.PlayerReadyCommand;
 import ch.hslu.ios.seabattle.commands.PlayerShootCommand;
 import ch.hslu.ios.seabattle.commands.ReadyCommand;
@@ -139,6 +140,13 @@ public class Game {
 							fP1.sendCommand(cmd1);
 						}
 					}
+				}
+				break;
+			case UpdateName:
+				if (fP1 == command.getSource()) {
+					fP2.sendCommand(new PlayerFoundCommand(command.getSource()));
+				} else {
+					fP1.sendCommand(new PlayerFoundCommand(command.getSource()));
 				}
 				break;
 		}

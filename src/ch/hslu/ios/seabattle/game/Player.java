@@ -16,6 +16,7 @@ import ch.hslu.ios.seabattle.commands.ReadyCommand;
 import ch.hslu.ios.seabattle.commands.RenewGameFieldCommand;
 import ch.hslu.ios.seabattle.commands.ServerCommand;
 import ch.hslu.ios.seabattle.commands.ServerSettingsCommand;
+import ch.hslu.ios.seabattle.commands.UpdateNameCommand;
 
 /**
  * Handles the Player 
@@ -122,6 +123,9 @@ public class Player extends Thread {
 						case UpdateName:
 							fPlayerName = cmd[1];
 							System.out.println("Name Changed to: " + cmd[1]);
+							if (fCurrentGame != null) {
+								fCurrentGame.handleCommand(new UpdateNameCommand(this, cmd));
+							}
 							break;
 						case RenewGameField:
 							if (fCurrentGame != null) {

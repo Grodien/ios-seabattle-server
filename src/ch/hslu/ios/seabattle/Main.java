@@ -1,6 +1,5 @@
 package ch.hslu.ios.seabattle;
 
-import ch.hslu.ios.seabattle.game.GameField;
 
 
 public class Main {
