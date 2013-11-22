@@ -16,7 +16,8 @@ public abstract class PlayerCommand extends Command {
 		Ready,
 		UpdateName,
 		RenewGameField,
-		Disconnect
+		Disconnect,
+		KeepAlive
 	}
 	
 	public PlayerCommand(PlayerCommandType commandType, Player source, String[] params) {

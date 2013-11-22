@@ -126,6 +126,7 @@ public class Game {
 					cmd.getSource().setIsReady(cmd.isReady());
 					
 					if (fP1.isIsReady() && fP2.isIsReady()) {
+						System.out.println("Game (" + fP1.getPlayerName() + " vs. " + fP2.getPlayerName() + ") has started!");
 						fHasStarted = true;
 						fActivePlayer = fP1;
 						PlayerReadyCommand cmd1 = new PlayerReadyCommand(true, true, true);

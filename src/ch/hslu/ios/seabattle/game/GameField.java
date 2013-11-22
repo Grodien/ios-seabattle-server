@@ -320,6 +320,14 @@ public class GameField
         while(isValidCoord(x+1, y)
                                 && getCell(x+1, y) == VALUE_SHIP_HIT)
         {
+        	 if(isValidCoord(x, y+1))
+             {
+                 setCell(x, y+1, VALUE_FREE_HIT);
+             }
+             if(isValidCoord(x, y-1))
+             {
+                 setCell(x, y-1, VALUE_FREE_HIT);
+             }
             x++;
             if(isValidCoord(x, y+1))
             {
@@ -344,7 +352,15 @@ public class GameField
         }
         while(isValidCoord(x-1, y)
                 && getCell(x-1, y) == VALUE_SHIP_HIT)
-        {                            
+        {
+            if(isValidCoord(x, y+1))
+            {
+                setCell(x, y+1, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x, y-1))
+            {
+                setCell(x, y-1, VALUE_FREE_HIT);
+            }
             x--;
             if(isValidCoord(x, y+1))
             {
@@ -369,7 +385,15 @@ public class GameField
         }
         while(isValidCoord(x, y+1)
                 && getCell(x, y+1) == VALUE_SHIP_HIT)
-        {                            
+        {   
+            if(isValidCoord(x+1, y))
+            {
+                setCell(x+1, y, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x-1, y))
+            {
+                setCell(x-1, y, VALUE_FREE_HIT);
+            }
             y++;
             if(isValidCoord(x+1, y))
             {
@@ -394,7 +418,15 @@ public class GameField
         }
         while(isValidCoord(x, y-1)
                 && getCell(x, y-1) == VALUE_SHIP_HIT)
-        {                            
+        {  
+            if(isValidCoord(x+1, y))
+            {
+                setCell(x+1, y, VALUE_FREE_HIT);
+            }
+            if(isValidCoord(x-1, y))
+            {
+                setCell(x-1, y, VALUE_FREE_HIT);
+            }
             y--;
             if(isValidCoord(x+1, y))
             {
@@ -407,15 +439,15 @@ public class GameField
         }
         if(isValidCoord(x+1, y-1))
         {
-            setCell(x+1, y-1, 2);
+            setCell(x+1, y-1, VALUE_FREE_HIT);
         }
         if(isValidCoord(x-1, y-1))
         {
-            setCell(x-1, y-1, 2);
+            setCell(x-1, y-1, VALUE_FREE_HIT);
         }
         if(isValidCoord(x, y-1))
         {
-            setCell(x, y-1, 2);
+            setCell(x, y-1, VALUE_FREE_HIT);
         }
     }
 }

@@ -112,6 +112,8 @@ public class Player extends Thread {
 				if (fInputStream.ready()) {
 					String[] cmd = fInputStream.readLine().split(Command.PARAM_SEPERATOR);
 					
+					if (cmd.length <= 0) continue;
+					
 					fLastTouched = new Date();
 					
 					PlayerCommandType type = PlayerCommandType.values()[Integer.parseInt(cmd[0])];
